@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Console;
 
 namespace AbstractFactory
@@ -17,7 +14,7 @@ namespace AbstractFactory
     {
         public void Consume()
         {
-            Console.WriteLine("This tea is nice but I'd prefer it with milk.");
+            WriteLine("This tea is nice but I'd prefer it with milk.");
         }
     }
 
@@ -25,7 +22,7 @@ namespace AbstractFactory
     {
         public void Consume()
         {
-            Console.WriteLine("This coffee is delicious!");
+            WriteLine("This coffee is delicious!");
         }
     }
 
@@ -38,7 +35,7 @@ namespace AbstractFactory
     {
         public IHotDrink Prepare(int amount)
         {
-            Console.WriteLine($"Put in tea bag, boil water, pour {amount} ml, add lemon, enjoy!");
+            WriteLine($"Put in tea bag, boil water, pour {amount} ml, add lemon, enjoy!");
             return new Tea();
         }
     }
@@ -47,7 +44,7 @@ namespace AbstractFactory
     {
         public IHotDrink Prepare(int amount)
         {
-            Console.WriteLine($"Grind some beans, boil water, pour {amount} ml, add cream and sugar, enjoy!");
+            WriteLine($"Grind some beans, boil water, pour {amount} ml, add cream and sugar, enjoy!");
             return new Coffee();
         }
     }
@@ -72,7 +69,7 @@ namespace AbstractFactory
             foreach (AvailableDrink drink in Enum.GetValues(typeof(AvailableDrink)))
             {
                 Type factoryType = Type.GetType($"AbstractFactory.{Enum.GetName(typeof(AvailableDrink), drink)}Factory");
-                var factory = (IHotDrinkFactory)Activator.CreateInstance(factoryType);
+                var factory = (IHotDrinkFactory)Activator.CreateInstance(factoryType ?? throw new InvalidOperationException());
 
                 factories.Add(drink, factory);
             }
@@ -97,7 +94,7 @@ namespace AbstractFactory
     {
 
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             var machine = new HotDrinkMachine();
